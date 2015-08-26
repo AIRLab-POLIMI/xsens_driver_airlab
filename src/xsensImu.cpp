@@ -17,27 +17,42 @@ private:
   ros::Publisher PublisherMag, PublisherImu;
   xsens_imu::XsensDriver driver;
   std::string dev;
+  int rate;
   unsigned long seq;
 public:
+  ROSnode();
   bool Prepare();
   void getData();
 };
 
+ROSnode::ROSnode() :  Handle("~") {
+  
+}
+
 bool ROSnode::Prepare() {
   seq = 0;
   //Retrieve parameters
-  if (Handle.getParam("/xsensImu/device", dev)) {
+  if (Handle.getParam("device", dev)) {
     ROS_INFO("Node %s: retrieved parameter device.", ros::this_node::getName().c_str());
   }
   else {
     ROS_FATAL("Node %s: unable to retrieve parameter device.", ros::this_node::getName().c_str());
     return false;
   }
+  
+  
+  if (Handle.getParam("rate", rate)) {
+    ROS_INFO("Node %s: retrieved parameter rate.", ros::this_node::getName().c_str());
+  }
+  else {
+    ROS_WARN("Node %s: unable to retrieve parameter rate. Setting default value to 20", ros::this_node::getName().c_str());
+    rate = 20;
+  }
 
   PublisherMag = Handle.advertise<sensor_msgs::MagneticField>("magnetic", 50);
   PublisherImu = Handle.advertise<sensor_msgs::Imu>("imu/data", 50);
 
-  driver.setFrequency(20);
+  driver.setFrequency(rate);
 
   //Open and initialize the device
   if(!driver.open(dev) ||
