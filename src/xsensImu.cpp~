@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
   if(!node.Prepare())
     return 1;
 
-  ros::Rate loopRate(node.getRate());
+  ros::Rate loopRate(2.0*node.getRate());
   
   while(ros::ok()) {
     node.getData();
