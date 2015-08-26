@@ -54,8 +54,8 @@ bool ROSnode::Prepare() {
     rate = 20;
   }
 
-  PublisherMag = Handle.advertise<sensor_msgs::MagneticField>("magnetic", 50);
-  PublisherImu = Handle.advertise<sensor_msgs::Imu>("imu/data", 50);
+  PublisherMag = Handle.advertise<sensor_msgs::MagneticField>("mag", 50);
+  PublisherImu = Handle.advertise<sensor_msgs::Imu>("imu", 50);
 
   driver.setFrequency(rate);
 

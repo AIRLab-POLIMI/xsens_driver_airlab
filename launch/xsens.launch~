@@ -1,8 +1,0 @@
-<launch>
-  <node pkg="xsens_driver_airlab" type="xsensImu" name="xsens_driver_airlab" output="screen" >
-    <param name="device" value="/dev/ttyUSB0" />
-    <param name="baudrate" value="115200" />
-    <param name="frame_id" value="/imu" />
-    <param name="rate" value="50" />
-  </node>
-</launch>
